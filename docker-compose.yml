@@ -1,7 +1,7 @@
 version: "3.9"
 services:
     web_dev:
-        image: lgp/python-project:dev
+        image: ligp1022/python-project:dev
         build:
             context: .
             dockerfile: Dockerfile
@@ -19,7 +19,7 @@ services:
         profiles:
             - dev
     web_ci:
-        image: lgp/python-project:test
+        image: ligp1022/python-project:test
         build:
             context: .
             dockerfile: Dockerfile
@@ -34,7 +34,7 @@ services:
         profiles:
             - ci
     web:
-        image: lgp/python-project:${IMAGE_TAG}
+        image: ligp1022/python-project:${IMAGE_TAG}
         build:
             context: .
             dockerfile: Dockerfile
