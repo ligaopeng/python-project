@@ -1,3 +1,7 @@
+### python project template 
+
+python项目脚手架，可以快速创建项目，使用conda、make、poetry、docker、fastapi、gunicorn、uvicorn、pyinstaller、pre-commit-config
+
 ### Create environment
 
 ```bash
@@ -17,7 +21,8 @@ make deps-install
 
 ```bash
 make help 
-
+```
+```
 help                           print help message
 deps-install                   install dependencies
 deps-install-ci                install CI
