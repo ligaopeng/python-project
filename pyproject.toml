@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "python-project-template"
+name = "lgp/python-project"
 version = "0.1.0"
 description = ""
-authors = ["YuXuan Tay <wyextay@gmail.com>"]
+authors = ["LGP <ligaopeng1022@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 

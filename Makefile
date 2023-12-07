@@ -91,9 +91,8 @@ run-task:  ## run python task
 
 # Add a new target for building the Typer app as an exe
 .PHONY: build-task-exe
-build-task-exe: $(APP_NAME).exe  ## build Typer task app as exe
+build-task-exe:
 # 修改 build-exe 目标，使用已存在的 conda 环境
-$(APP_NAME).exe:
 	$(CONDA_ENV_DIR)/bin/pyinstaller -F --distpath $(DIST_DIR) --name task $(SOURCE_DIR)/task.py
 
 .PHONY: run-web-dev

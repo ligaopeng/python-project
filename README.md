@@ -1,4 +1,4 @@
-# Python Project Template
+# Python Project
 
 Starter template for python projects
 
@@ -7,7 +7,7 @@ Starter template for python projects
 Use Conda to create a virtual environment and activate it for the project.
 
 ```bash
-PROJECT_NAME = python-project-template
+PROJECT_NAME = python-project
 PYTHON_VERSION = 3.8
 
 conda create --name $PROJECT_NAME --yes python=$PYTHON_VERSION

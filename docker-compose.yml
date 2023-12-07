@@ -1,7 +1,7 @@
 version: "3.9"
 services:
     web_dev:
-        image: lgp/python-project-template:dev
+        image: lgp/python-project:dev
         build:
             context: .
             dockerfile: Dockerfile
@@ -9,7 +9,7 @@ services:
                 BUILDKIT_INLINE_CACHE: 1
                 ENVIRONMENT: ${ENVIRONMENT:-dev}
             cache_from:
-                - lgp/python-project-template:dev
+                - lgp/python-project:dev
             target: dev
         volumes:
             - .:/home/user/app
@@ -19,7 +19,7 @@ services:
         profiles:
             - dev
     web_ci:
-        image: lgp/python-project-template:test
+        image: lgp/python-project:test
         build:
             context: .
             dockerfile: Dockerfile
@@ -27,14 +27,14 @@ services:
                 BUILDKIT_INLINE_CACHE: 1
                 ENVIRONMENT: ${ENVIRONMENT:-dev}
             cache_from:
-                - lgp/python-project-template:dev
-                - lgp/python-project-template:test
+                - lgp/python-project:dev
+                - lgp/python-project:test
             target: ci
         env_file: .env
         profiles:
             - ci
     web:
-        image: lgp/python-project-template:${IMAGE_TAG}
+        image: lgp/python-project:${IMAGE_TAG}
         build:
             context: .
             dockerfile: Dockerfile
@@ -42,9 +42,9 @@ services:
                 BUILDKIT_INLINE_CACHE: 1
                 ENVIRONMENT: ${ENVIRONMENT:-dev}
             cache_from:
-                - lgp/python-project-template:dev
-                - lgp/python-project-template:latest
-                - lgp/python-project-template:${IMAGE_TAG}
+                - lgp/python-project:dev
+                - lgp/python-project:latest
+                - lgp/python-project:${IMAGE_TAG}
             target: prod
         ports:
             - "8000:8000"
