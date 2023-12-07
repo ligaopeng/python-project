@@ -1,10 +1,4 @@
-# Python Project
-
-Starter template for python projects
-
 ### Create environment
-
-Use Conda to create a virtual environment and activate it for the project.
 
 ```bash
 PROJECT_NAME = python-project
@@ -16,14 +10,24 @@ conda activate $PROJECT_NAME
 
 ### Install dependencies
 
-Install Poetry with pip. Then install project dependencies with Poetry.
-
 ```bash
 make deps-install
 ```
+### make help
 
-Use Poetry to add project and development dependencies into `pyproject.toml`.
+```bash
+make help 
 
-NOTE: Poetry must be included as a development dependency to prevent
-Poetry from uninstalling itself and its dependencies.
+help                           print help message
+deps-install                   install dependencies
+run-ci                         run ci
+run-task                       run python task
+run-web                        run python web
+run                            run main python app
+dc-build                       build app image
+dc-up                          run app image
+
+```
+
+
 

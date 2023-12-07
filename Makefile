@@ -43,41 +43,41 @@ deps-install:  ## install dependencies
 	python -m pre_commit install --install-hooks
 
 .PHONY: deps-install-ci
-deps-install-ci:
+deps-install-ci:  ## install CI
 	python -m pip install poetry
 	python -m poetry config virtualenvs.create false
 	python -m poetry install --no-root
 	python -m poetry show
 
 .PHONY: deps-update
-deps-update:
+deps-update:  ## update dependencies
 	poetry update
 	poetry export --format requirements.txt --output requirements.txt --without-hashes
 	python -m pre_commit autoupdate
 
-requirements.txt: poetry.lock
+requirements.txt: poetry.lock ## export requirements.txt
 	poetry export --format requirements.txt --output requirements.txt --without-hashes
 
-requirements-dev.txt: poetry.lock
+requirements-dev.txt: poetry.lock  ## export requirements-dev.txt
 	poetry export --with dev --format requirements.txt --output requirements-dev.txt --without-hashes
 
 ## checks
 
 .PHONY: format
-format:
-	python -m ruff check --fix .
-	python -m isort .
-	python -m black $(SOURCE_DIR) $(TEST_DIR)
+format: ## format code
+	python -m ruff check --fix .  # 使用 ruff 进行代码规范检查并尝试自动修复
+	python -m isort .   # 使用 isort 对 import 语句进行排序
+	python -m black $(SOURCE_DIR) $(TEST_DIR)  # 使用 black 对代码进行格式化
 
 .PHONY: lint
-lint:
-	python -m ruff check .
-	python -m isort . --check --diff
-	python -m black $(SOURCE_DIR) $(TEST_DIR) --diff
-	python -m mypy $(SOURCE_DIR)
+lint: ## static code check
+	python -m ruff check .  # 使用 ruff 进行代码规范检查
+	python -m isort . --check --diff   # 使用 isort 检查 import 语句是否按规则排序，并显示差异
+	python -m black $(SOURCE_DIR) $(TEST_DIR) --diff  # 使用 black 检查代码格式，并显示差异
+	python -m mypy $(SOURCE_DIR)  # 使用 mypy 进行静态类型检查
 
 .PHONY: test
-test:
+test:  ## code test
 	python -m pytest $(TEST_DIR) --cov $(SOURCE_DIR)
 
 .PHONY: run-ci
@@ -91,12 +91,11 @@ run-task:  ## run python task
 
 # Add a new target for building the Typer app as an exe
 .PHONY: build-task-exe
-build-task-exe:
-# 修改 build-exe 目标，使用已存在的 conda 环境
-	$(CONDA_ENV_DIR)/bin/pyinstaller -F --distpath $(DIST_DIR) --name task $(SOURCE_DIR)/task.py
+build-task-exe:  ## build task exe
+	$(CONDA_ENV_DIR)/bin/pyinstaller -F --distpath $(DIST_DIR) --name task $(SOURCE_DIR)/task.py # 修改 build-exe 目标，使用已存在的 conda 环境
 
 .PHONY: run-web-dev
-run-web-dev:
+run-web-dev:  ## run web app dev
 	python -m uvicorn src.web:app --reload
 
 .PHONY: run-web
@@ -109,29 +108,29 @@ run: run-web  ## run main python app
 ## docker-compose
 
 .PHONY: dc-build
-dc-build: requirements.txt  ## build app image
+dc-build: requirements.txt  ## build web_dev、web_ci、web image
 	IMAGE_TAG=$(IMAGE_TAG) docker compose build web_dev web_ci web
 
 .PHONY: dc-push
-dc-push:
+dc-push: ## push web_dev and web docker image
 	IMAGE_TAG=$(IMAGE_TAG) docker compose push web_dev web
 
 .PHONY: dc-test
-dc-ci:
-	docker compose run --rm web_ci
+dc-ci: ## run web_ci, end delete
+	docker compose run --rm web_ci # 使用 Docker Compose 运行名为 web_ci 的服务容器，--rm 选项表示容器运行结束后立即删除容器
 
 .PHONY: dc-up
-dc-up:  ## run app image
+dc-up:  ## run web dev app image
 	docker compose up web_dev
 
 .PHONY: dc-exec
-dc-exec:
+dc-exec: ## run web_dev exec /bin/bash
 	docker compose exec web_dev /bin/bash
 
 .PHONY: dc-stop
-dc-stop:
+dc-stop: ## stop docker server
 	docker compose stop
 
 .PHONY: dc-down
-dc-down:
-	docker compose down
+dc-down: ## stop and delete docker server
+	docker compose down  ## 停止并删除正在运行的 Docker 服务容器及其网络
