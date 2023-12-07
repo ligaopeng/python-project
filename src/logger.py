@@ -31,8 +31,10 @@ class StackdriverFormatter(JsonFormatter):
 
 def _get_log_formatter() -> StackdriverFormatter:
     # formatter
-    log_format = ("%(asctime)s - %(levelname)s - %(name)s - %(processName)s - %(threadName)s - %(filename)s - "
-                 "%(module)s - %(lineno)d - %(funcName)s - %(message)s ")
+    log_format = (
+        "%(asctime)s - %(levelname)s - %(name)s - %(processName)s - %(threadName)s - %(filename)s - "
+        "%(module)s - %(lineno)d - %(funcName)s - %(message)s "
+    )
     date_format = "%Y-%m-%dT%H:%M:%S"
     return StackdriverFormatter(
         fmt=log_format,
@@ -106,7 +108,9 @@ def configure_log_listener(
 
     # rotating file handler
     if log_path:
-        file_handler = _get_file_handler(log_path, max_file_size_mb=max_file_size_mb, retention_days=retention_days)
+        file_handler = _get_file_handler(
+            log_path, max_file_size_mb=max_file_size_mb, retention_days=retention_days
+        )
         handlers.append(file_handler)
 
     # console handler

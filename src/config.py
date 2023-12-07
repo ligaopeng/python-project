@@ -12,6 +12,7 @@ from src.logger import configure_log_listener, get_logger
 # 在脚本开始时加载 .env 文件
 load_dotenv()
 
+
 class AppConfig(BaseSettings):
     app_name: str = ""
     environment: str = "dev"
@@ -26,6 +27,7 @@ class AppConfig(BaseSettings):
     max_file_size_mb: int = 1
     retention_days: int = 30
     message: str = "default message"
+
 
 @lru_cache
 def get_config(
@@ -45,8 +47,12 @@ def get_config(
 config = get_config()
 
 # config logger
-configure_log_listener(console=config.log_console, log_path=config.log_file
-                       , max_file_size_mb=config.max_file_size_mb, retention_days=config.retention_days)
+configure_log_listener(
+    console=config.log_console,
+    log_path=config.log_file,
+    max_file_size_mb=config.max_file_size_mb,
+    retention_days=config.retention_days,
+)
 logger = get_logger(config.app_name)
 logger.debug("config", extra={"config": config.model_dump()})
 
