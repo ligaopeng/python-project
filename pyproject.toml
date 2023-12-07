@@ -1,0 +1,68 @@
+[tool.poetry]
+name = "python-project-template"
+version = "0.1.0"
+description = ""
+authors = ["YuXuan Tay <wyextay@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "*"
+gunicorn = "*"
+pydantic = { extras = ["dotenv"], version = "*" }
+python-dotenv = "*"
+python-json-logger = "*"
+typer = "*"
+uvicorn = "*"
+pydantic-settings = "*"
+
+[tool.poetry.group.dev.dependencies]
+black = { allow-prereleases = true, version = "*" }
+fastapi = { extras = ["all"], version = "*" }
+isort = "*"
+mypy = "*"
+pre-commit = "*"
+pytest = "*"
+pytest-cov = "*"
+ruff = "*"
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.isort]
+# compatible with psf/black
+# https://pycqa.github.io/isort/docs/configuration/black_compatibility/
+# https://github.com/psf/black/blob/master/docs/compatible_configs.md
+profile = "black"
+float_to_top = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = """
+    -ra
+    -v
+    --strict-markers
+"""
+
+[tool.ruff]
+fix = true
+select = ["ALL"]
+ignore = [
+    "D",      # pydocstyle
+    "I",      # isort
+    "ERA",    # eradicate
+    "B008",   # function-call-in-default-argument
+    "E501",   # line-too-long
+    "COM812", # missing-trailing-comma
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/*" = [
+    "S101", # assert
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
