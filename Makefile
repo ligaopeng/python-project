@@ -109,11 +109,11 @@ run: run-web  ## run main python app
 
 .PHONY: dc-build
 dc-build: requirements.txt  ## build web_dev、web_ci、web image
-	IMAGE_TAG=$(IMAGE_TAG) docker compose build web_dev web_ci web
+	IMAGE_TAG=$(IMAGE_TAG) docker compose build web_dev web_ci web # 使用 Docker Compose 构建名为 web_dev、web_ci、web 的服务镜像
 
 .PHONY: dc-push
 dc-push: ## push web_dev and web docker image
-	IMAGE_TAG=$(IMAGE_TAG) docker compose push web_dev web
+	IMAGE_TAG=$(IMAGE_TAG) docker compose push web_dev web # 使用 Docker Compose 推送名为 web_dev 和 web 的服务镜像
 
 .PHONY: dc-test
 dc-ci: ## run web_ci, end delete
@@ -121,15 +121,15 @@ dc-ci: ## run web_ci, end delete
 
 .PHONY: dc-up
 dc-up:  ## run web dev app image
-	docker compose up web_dev
+	docker compose up web_dev # 使用 Docker Compose 启动名为 web_dev 的服务容器
 
 .PHONY: dc-exec
 dc-exec: ## run web_dev exec /bin/bash
-	docker compose exec web_dev /bin/bash
+	docker compose exec web_dev /bin/bash # 使用 Docker Compose 在 web_dev 服务容器中执行交互式的 Bash shell
 
 .PHONY: dc-stop
 dc-stop: ## stop docker server
-	docker compose stop
+	docker compose stop # 使用 Docker Compose 停止正在运行的服务容器
 
 .PHONY: dc-down
 dc-down: ## stop and delete docker server

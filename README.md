@@ -20,12 +20,24 @@ make help
 
 help                           print help message
 deps-install                   install dependencies
+deps-install-ci                install CI
+deps-update                    update dependencies
+format                         format code
+lint                           static code check
+test                           code test
 run-ci                         run ci
 run-task                       run python task
+build-task-exe                 build task exe
+run-web-dev                    run web app dev
 run-web                        run python web
 run                            run main python app
-dc-build                       build app image
-dc-up                          run app image
+dc-build                       build web_dev、web_ci、web image
+dc-push                        push web_dev and web docker image
+dc-ci                          run web_ci, end delete
+dc-up                          run web dev app image
+dc-exec                        run web_dev exec /bin/bash
+dc-stop                        stop docker server
+dc-down                        stop and delete docker server
 
 ```
 
