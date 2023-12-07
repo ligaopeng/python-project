@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import atexit
 import logging
-import os
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from logging.handlers import QueueHandler, QueueListener, RotatingFileHandler
+from pathlib import Path
 from queue import Queue
 from typing import Any
 
@@ -31,8 +31,8 @@ class StackdriverFormatter(JsonFormatter):
 
 def _get_log_formatter() -> StackdriverFormatter:
     # formatter
-    log_format = "%(asctime)s - %(levelname)s - %(name)s - %(processName)s - %(threadName)s - %(filename)s - %(" \
-                 "module)s - %(lineno)d - %(funcName)s - %(message)s "
+    log_format = ("%(asctime)s - %(levelname)s - %(name)s - %(processName)s - %(threadName)s - %(filename)s - "
+                 "%(module)s - %(lineno)d - %(funcName)s - %(message)s ")
     date_format = "%Y-%m-%dT%H:%M:%S"
     return StackdriverFormatter(
         fmt=log_format,
@@ -47,20 +47,19 @@ def _get_file_handler(
     max_file_size_mb: int = 1,
     retention_days: int = 30,
 ) -> RotatingFileHandler:
-    # 创建 "logs" 文件夹（如果不存在）
     logs_folder = "logs"
-    if not os.path.exists(logs_folder):
-        os.makedirs(logs_folder)
+    if not Path(logs_folder).exists():
+        Path(logs_folder).mkdir(parents=True, exist_ok=True)
     # 获取当前日期
-    current_date = datetime.now().strftime("%Y-%m-%d")
-    log_path_with_date = os.path.join(logs_folder, f"{log_path}.{current_date}")
-
+    current_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    # log_path_with_date = os.path.join(logs_folder, f"{log_path}.{current_date}")
+    log_path_with_date = Path(logs_folder) / f"{log_path}.{current_date}"
     # 删除指定天数前的日志文件
-    retention_date = datetime.now() - timedelta(days=retention_days)
+    retention_date = datetime.now(timezone.utc) - timedelta(days=retention_days)
     old_log_date = retention_date.strftime("%Y-%m-%d")
     old_log_path = f"{log_path}.{old_log_date}"
-    if os.path.exists(old_log_path):
-        os.remove(old_log_path)
+    if Path(old_log_path).exists():
+        Path(old_log_path).unlink()
     file_handler = RotatingFileHandler(
         log_path_with_date,
         maxBytes=max_file_size_mb * 2**20,  # 1 MB

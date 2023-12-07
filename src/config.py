@@ -5,7 +5,6 @@ from typing import Any
 
 import typer
 from dotenv import load_dotenv
-from pydantic import ConfigDict, BaseModel
 from pydantic_settings import BaseSettings
 
 from src.logger import configure_log_listener, get_logger
@@ -35,7 +34,6 @@ def get_config(
     **kwargs: Any,  # noqa: ANN401
 ) -> AppConfig:
     # read configs
-    print(f"加载环境配置: {environment}")
     parser = ConfigParser()
     parser.read(ini_path)
     # environment config
@@ -55,7 +53,7 @@ logger.debug("config", extra={"config": config.model_dump()})
 
 def main(key: str) -> None:
     """Print config value of specified key."""
-    print(config.model_dump())
+    logger.info(config.model_dump())
     typer.echo(config.model_dump().get(key))
 
 
