@@ -17,6 +17,13 @@ conda activate $PROJECT_NAME
 ```bash
 make deps-install
 ```
+``` dependency
+# development dependency
+poetry add --dev poetry
+
+# project dependency
+poetry add pydantic
+```
 ### make help
 
 ```bash
